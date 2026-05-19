@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexaCore Technologies — Solutions Informatiques d'Excellence</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nexacore.css">
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="nexacore.html" class="nav-logo">
+        <div class="logo-mark">N</div>
+        <div class="logo-text">
+          <span class="logo-name">NexaCore</span>
+          <span class="logo-sub">Technologies</span>
+        </div>
+      </a>
+
+      <button class="nav-burger" id="navBurger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="nexacore.html" class="active">Accueil</a></li>
+        <li><a href="#expertises">Expertises</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#temoignages">Clients</a></li>
+        <li><a href="postuler.html" class="nav-cta">
+          <i class="fas fa-users"></i> Nous rejoindre
+        </a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <header class="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-grid-bg"></div>
+
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          Depuis 2011 — Paris, Lyon, Bordeaux
+        </div>
+
+        <h1>
+          On conçoit le <span class="hero-highlight">socle technique</span>
+          de ceux qui veulent aller plus vite.
+        </h1>
+
+        <p class="hero-desc">
+          Infrastructure cloud, cybersécurité, développement sur-mesure et
+          intelligence artificielle. NexaCore accompagne les entreprises
+          qui refusent les compromis technologiques.
+        </p>
+
+        <div class="hero-btns">
+          <a href="#expertises" class="btn-main">
+            Découvrir nos expertises
+            <i class="fas fa-arrow-down"></i>
+          </a>
+          <a href="postuler.html" class="btn-ghost">
+            On recrute
+            <span class="btn-ghost-badge">7 postes</span>
+          </a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <div class="metric-val" data-target="140">0</div>
+            <div class="metric-label">Projets livrés</div>
+          </div>
+          <div class="metric-sep"></div>
+          <div class="metric">
+            <div class="metric-val" data-target="35">0</div>
+            <div class="metric-label">Ingénieurs</div>
+          </div>
+          <div class="metric-sep"></div>
+          <div class="metric">
+            <div class="metric-val" data-target="99">0</div>
+            <div class="metric-label">% uptime SLA</div>
+          </div>
+          <div class="metric-sep"></div>
+          <div class="metric">
+            <div class="metric-val" data-target="12">0</div>
+            <div class="metric-label">Années d'XP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hv-window">
+          <div class="hv-titlebar">
+            <span class="hv-dot red"></span>
+            <span class="hv-dot yellow"></span>
+            <span class="hv-dot green"></span>
+            <span class="hv-filename">nexacore_infra.yml</span>
+          </div>
+          <pre class="hv-code"><code><span class="code-comment"># NexaCore — Stack Production</span>
+<span class="code-key">cluster</span>:
+  <span class="code-key">name</span>: <span class="code-str">"nexacore-prod"</span>
+  <span class="code-key">nodes</span>: <span class="code-num">12</span>
+  <span class="code-key">region</span>: <span class="code-str">"eu-west-3"</span>
+
+<span class="code-key">security</span>:
+  <span class="code-key">firewall</span>: <span class="code-bool">enabled</span>
+  <span class="code-key">encryption</span>: <span class="code-str">"AES-256"</span>
+  <span class="code-key">soc</span>: <span class="code-str">"24/7"</span>
+
+<span class="code-key">monitoring</span>:
+  <span class="code-key">uptime_sla</span>: <span class="code-str">"99.95%"</span>
+  <span class="code-key">alerting</span>: <span class="code-bool">true</span>
+  <span class="code-key">ai_anomaly</span>: <span class="code-bool">enabled</span></code></pre>
+        </div>
+        <div class="hv-float hv-float-1">
+          <i class="fas fa-shield-alt"></i>
+          <span>SOC actif</span>
+        </div>
+        <div class="hv-float hv-float-2">
+          <i class="fas fa-check-circle"></i>
+          <span>Deploy OK — 0.4s</span>
+        </div>
+        <div class="hv-float hv-float-3">
+          <i class="fas fa-chart-line"></i>
+          <span>CPU 23%</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== BANDEAU CLIENTS ====== -->
+  <section class="clients-band">
+    <div class="clients-inner">
+      <span class="clients-label">Ils nous font confiance</span>
+      <div class="clients-logos">
+        <div class="client-logo">Engie</div>
+        <div class="client-logo">BNP Paribas</div>
+        <div class="client-logo">Dassault Systèmes</div>
+        <div class="client-logo">OVHcloud</div>
+        <div class="client-logo">Thales</div>
+        <div class="client-logo">Doctolib</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== EXPERTISES ====== -->
+  <section class="expertises" id="expertises">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-tag">Ce qu'on sait faire</span>
+        <h2>Quatre piliers, zéro zone d'ombre.</h2>
+        <p>Chaque brique de votre SI mérite une expertise dédiée. On ne fait pas de généralisme.</p>
+      </div>
+
+      <div class="exp-grid">
+        <div class="exp-card">
+          <div class="exp-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <div class="exp-num">01</div>
+          <h3>Cloud & Infrastructure</h3>
+          <p>
+            Architecture multi-cloud, migration, Kubernetes en production,
+            IaC avec Terraform. On construit des plateformes qui tiennent
+            la charge — pas des POC qu'on jette après la démo.
+          </p>
+          <ul class="exp-techs">
+            <li>AWS</li>
+            <li>Azure</li>
+            <li>GCP</li>
+            <li>Terraform</li>
+            <li>K8s</li>
+          </ul>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="exp-num">02</div>
+          <h3>Cybersécurité</h3>
+          <p>
+            Audit, pentest, SOC managé, conformité RGPD et ISO 27001.
+            Notre équipe Red Team trouve les failles avant les autres.
+            Pas de slides PowerPoint — du concret.
+          </p>
+          <ul class="exp-techs">
+            <li>SIEM</li>
+            <li>Zero Trust</li>
+            <li>Pentest</li>
+            <li>SOC 24/7</li>
+          </ul>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <div class="exp-num">03</div>
+          <h3>Développement Sur-Mesure</h3>
+          <p>
+            Applications web, API, plateformes SaaS. On code propre,
+            on teste, on déploie en CI/CD. Du backend robuste au
+            frontend soigné — la stack complète, sans sous-traitance.
+          </p>
+          <ul class="exp-techs">
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Python</li>
+            <li>PostgreSQL</li>
+            <li>Docker</li>
+          </ul>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div class="exp-num">04</div>
+          <h3>Intelligence Artificielle</h3>
+          <p>
+            ML en production, NLP, computer vision, LLM fine-tuning.
+            On ne fait pas de l'IA pour le buzz — on déploie des modèles
+            qui génèrent du ROI mesurable.
+          </p>
+          <ul class="exp-techs">
+            <li>PyTorch</li>
+            <li>LangChain</li>
+            <li>MLflow</li>
+            <li>RAG</li>
+            <li>LLM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== RÉALISATIONS ====== -->
+  <section class="realisations" id="realisations">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-tag">Cas concrets</span>
+        <h2>Ce qu'on a construit récemment.</h2>
+        <p>Pas de lorem ipsum — des vrais projets, des vrais résultats.</p>
+      </div>
+
+      <div class="real-grid">
+        <div class="real-card real-card-big">
+          <div class="real-tag">Cloud Migration</div>
+          <h3>Migration multi-cloud pour un groupe bancaire</h3>
+          <p>
+            +200 serveurs migrés d'un datacenter legacy vers AWS et Azure
+            en 6 mois. Zero downtime. Réduction des coûts infra de 40%.
+          </p>
+          <div class="real-metrics">
+            <div class="rm"><strong>200+</strong> serveurs</div>
+            <div class="rm"><strong>-40%</strong> coûts</div>
+            <div class="rm"><strong>0</strong> downtime</div>
+          </div>
+        </div>
+
+        <div class="real-card">
+          <div class="real-tag">Cybersécurité</div>
+          <h3>SOC managé — secteur santé</h3>
+          <p>
+            Mise en place d'un SOC 24/7 pour une chaîne de cliniques.
+            +3000 alertes traitées/mois, 12 incidents critiques bloqués
+            la première année.
+          </p>
+          <div class="real-metrics">
+            <div class="rm"><strong>24/7</strong></div>
+            <div class="rm"><strong>3k</strong> alertes/mois</div>
+          </div>
+        </div>
+
+        <div class="real-card">
+          <div class="real-tag">IA / NLP</div>
+          <h3>Chatbot IA pour un e-commerçant</h3>
+          <p>
+            Déploiement d'un assistant IA basé sur un LLM fine-tuné.
+            -60% de tickets support niveau 1, satisfaction client +25%.
+          </p>
+          <div class="real-metrics">
+            <div class="rm"><strong>-60%</strong> tickets</div>
+            <div class="rm"><strong>+25%</strong> CSAT</div>
+          </div>
+        </div>
+
+        <div class="real-card">
+          <div class="real-tag">Dev Sur-Mesure</div>
+          <h3>Plateforme SaaS RH</h3>
+          <p>
+            Conception et développement d'une plateforme de gestion
+            des talents pour une scale-up de 500 employés.
+            Stack React + Node.js + PostgreSQL.
+          </p>
+          <div class="real-metrics">
+            <div class="rm"><strong>500</strong> users</div>
+            <div class="rm"><strong>99.9%</strong> uptime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MÉTHODO ====== -->
+  <section class="methodo">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-tag">Notre approche</span>
+        <h2>Pas de bullshit, que du livrable.</h2>
+        <p>Notre méthode en 4 temps — éprouvée sur +140 projets.</p>
+      </div>
+
+      <div class="methodo-timeline">
+        <div class="mt-step">
+          <div class="mt-num">01</div>
+          <div class="mt-content">
+            <h3>Cadrage</h3>
+            <p>On écoute, on challenge, on délimite le scope. Pas de cahier des charges de 80 pages — un document clair avec les vrais enjeux.</p>
+          </div>
+        </div>
+        <div class="mt-line"></div>
+        <div class="mt-step">
+          <div class="mt-num">02</div>
+          <div class="mt-content">
+            <h3>Architecture</h3>
+            <p>On dessine la solution technique. Choix de stack, schéma d'infra, plan de sécurité. Tout est validé avant d'écrire la première ligne.</p>
+          </div>
+        </div>
+        <div class="mt-line"></div>
+        <div class="mt-step">
+          <div class="mt-num">03</div>
+          <div class="mt-content">
+            <h3>Build</h3>
+            <p>Sprints de 2 semaines, démos régulières, CI/CD dès le jour 1. Vous voyez le produit avancer — pas de tunnel.</p>
+          </div>
+        </div>
+        <div class="mt-line"></div>
+        <div class="mt-step">
+          <div class="mt-num">04</div>
+          <div class="mt-content">
+            <h3>Run & Support</h3>
+            <p>Mise en prod, monitoring, support N2/N3. On ne disparaît pas après le go-live — on reste dans la boucle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== TÉMOIGNAGES ====== -->
+  <section class="temoignages" id="temoignages">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-tag">Retours clients</span>
+        <h2>Ce qu'ils disent de nous.</h2>
+      </div>
+
+      <div class="temo-grid">
+        <div class="temo-card">
+          <div class="temo-stars">★★★★★</div>
+          <p>
+            « NexaCore a repris notre infra en main en 3 mois. Avant,
+            on avait un incident majeur par semaine. Depuis — rien.
+            C'est devenu transparent. »
+          </p>
+          <div class="temo-author">
+            <div class="temo-avatar">SB</div>
+            <div>
+              <strong>Sophie Bertrand</strong>
+              <span>CTO — MedTech Solutions</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="temo-card">
+          <div class="temo-stars">★★★★★</div>
+          <p>
+            « L'équipe dev a livré notre plateforme SaaS en avance.
+            Code propre, bien documenté. C'est assez rare pour
+            être souligné. »
+          </p>
+          <div class="temo-author">
+            <div class="temo-avatar">ML</div>
+            <div>
+              <strong>Marc Leblanc</strong>
+              <span>CEO — FinApp</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="temo-card">
+          <div class="temo-stars">★★★★★</div>
+          <p>
+            « Leur Red Team a trouvé 3 failles critiques que nos audits
+            précédents avaient ratées. Depuis, on dort mieux la nuit. »
+          </p>
+          <div class="temo-author">
+            <div class="temo-avatar">AT</div>
+            <div>
+              <strong>Amélie Tran</strong>
+              <span>RSSI — Groupe LogiSanté</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CTA CARRIÈRES ====== -->
+  <section class="cta-carrieres">
+    <div class="section-inner">
+      <div class="cta-box">
+        <div class="cta-text">
+          <span class="section-tag" style="color:rgba(255,255,255,0.7);">On recrute</span>
+          <h2>Envie de bosser sur des vrais sujets ?</h2>
+          <p>
+            Pas de jargon corporate. Des projets techniques ambitieux,
+            une équipe soudée, et du café correct. 7 postes ouverts.
+          </p>
+          <a href="postuler.html" class="btn-main" style="background:white; color:#003d7a;">
+            Voir les offres
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="cta-visual">
+          <div class="cta-card">
+            <div class="cta-card-icon"><i class="fas fa-laptop-code"></i></div>
+            <div>
+              <strong>Dev Full Stack Senior</strong>
+              <span>CDI — Paris / Remote</span>
+            </div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-icon"><i class="fas fa-shield-alt"></i></div>
+            <div>
+              <strong>Ingénieur Cybersécurité</strong>
+              <span>CDI — Lyon</span>
+            </div>
+          </div>
+          <div class="cta-card">
+            <div class="cta-card-icon"><i class="fas fa-brain"></i></div>
+            <div>
+              <strong>ML Engineer</strong>
+              <span>CDI — Remote</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="logo-mark">N</div>
+          <div>
+            <div class="logo-name">NexaCore</div>
+            <div class="logo-sub">Technologies</div>
+          </div>
+        </div>
+        <p class="footer-desc">
+          Solutions informatiques d'excellence — Cloud, Cybersécurité,
+          Développement et Intelligence Artificielle.
+        </p>
+        <div class="footer-socials">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Expertises</h4>
+        <a href="#expertises">Cloud & Infrastructure</a>
+        <a href="#expertises">Cybersécurité</a>
+        <a href="#expertises">Développement</a>
+        <a href="#expertises">Intelligence Artificielle</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Entreprise</h4>
+        <a href="#realisations">Réalisations</a>
+        <a href="#temoignages">Clients</a>
+        <a href="carrieres.html">Carrières</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:contact@nexacore.tech">
+          <i class="fas fa-envelope"></i> contact@nexacore.tech
+        </a>
+        <a href="tel:+33142789012">
+          <i class="fas fa-phone"></i> 01 42 78 90 12
+        </a>
+        <a href="#">
+          <i class="fas fa-map-marker-alt"></i> 42 rue de Rivoli, Paris
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 NexaCore Technologies — Tous droits réservés</p>
+      <div class="footer-bottom-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nexacore.js"></script>
+</body>
+</html>
