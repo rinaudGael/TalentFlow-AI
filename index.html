@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentFlow AI - Dashboard de Recrutement</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="sidebar.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <div class="header">
+        <div id="entete">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+            style="
+              position: relative;
+              top: 6px;
+              margin-right: 10px;
+              display: inline-block;
+              fill: none;
+            "
+          >
+            <circle cx="9" cy="16" r="4" fill="white" />
+            <circle cx="16" cy="10" r="3" fill="white" />
+            <circle cx="23" cy="14" r="4" fill="white" />
+            <circle cx="19" cy="22" r="3" fill="white" />
+            <circle cx="12" cy="24" r="2.5" fill="white" />
+            <line
+              x1="9"
+              y1="16"
+              x2="16"
+              y2="10"
+              stroke="white"
+              stroke-width="1"
+              opacity="0.6"
+            />
+            <line
+              x1="16"
+              y1="10"
+              x2="23"
+              y2="14"
+              stroke="white"
+              stroke-width="1"
+              opacity="0.6"
+            />
+            <line
+              x1="23"
+              y1="14"
+              x2="19"
+              y2="22"
+              stroke="white"
+              stroke-width="1"
+              opacity="0.6"
+            />
+            <line
+              x1="19"
+              y1="22"
+              x2="12"
+              y2="24"
+              stroke="white"
+              stroke-width="1"
+              opacity="0.6"
+            />
+            <line
+              x1="12"
+              y1="24"
+              x2="9"
+              y2="16"
+              stroke="white"
+              stroke-width="1"
+              opacity="0.6"
+            />
+          </svg>
+          <h1>TalentFlow AI </h1>
+          <p style="opacity: 0.8; margin-top: 5px">
+            Systeme de Gestion de Candidatures Automatise par IA
+          </p>
+        </div>
+        <div class="header-buttons">
+          <!-- <a href="/postuler.html" class="header-btn"><i class="fas fa-pen-square"></i> Postuler</a> -->
+          <span
+            id="userInfo"
+            style="
+              color: white;
+              margin-right: 15px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <i class="fas fa-user-circle"></i>
+            <span>
+              <span id="currentUsername"></span>
+              <span
+                id="userRole"
+                style="font-size: 11px; opacity: 0.7; display: block"
+              ></span>
+            </span>
+          </span>
+
+          <button
+            class="header-btn"
+            onclick="logout()"
+            style="background: rgba(255, 107, 107, 0.2); color: #ff6b6b"
+          >
+            <i class="fas fa-sign-out-alt" style="color: #ff6b6b"></i>
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      <div id="loading" class="loading"><p>Chargement des donnees...</p></div>
+
+      <div id="content" style="display: none">
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="number" id="kpi-positions">0</div>
+            <div class="label">
+              <i class="fas fa-briefcase"></i> Postes Ouverts
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="number" id="kpi-total" style="color: #003d7a">0</div>
+            <div class="label">
+              <i class="fas fa-users"></i> Total Candidats
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="number" id="kpi-shortlisted" style="color: #059669">
+              0
+            </div>
+            <div class="label">
+              <i class="fas fa-check-circle"></i> Preselectionnes
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="number" id="kpi-rejected" style="color: #dc2626">0</div>
+            <div class="label"><i class="fas fa-times-circle"></i> Refuses</div>
+          </div>
+          <div class="kpi">
+            <div class="number" id="kpi-score" style="color: #0055b8">0</div>
+            <div class="label">
+              <i class="fas fa-chart-line"></i> Score Moyen
+            </div>
+          </div>
+        </div>
+        <!-- Toggle Vue -->
+
+        <div class="card">
+          <h3>
+            <i class="fas fa-project-diagram"></i> Pipeline de Recrutement
+          </h3>
+          <div class="pipeline">
+            <div class="pipeline-step step-received">
+              <div class="count" id="pipe-received">0</div>
+              <div class="step-label">Recus</div>
+            </div>
+            <div class="pipeline-step step-analyzed">
+              <div class="count" id="pipe-analyzed">0</div>
+              <div class="step-label">Analyses</div>
+            </div>
+            <div class="pipeline-step step-shortlisted">
+              <div class="count" id="pipe-shortlisted">0</div>
+              <div class="step-label">Preselectionnes</div>
+            </div>
+            <div class="pipeline-step step-interview">
+              <div class="count" id="pipe-interview">0</div>
+              <div class="step-label">Entretien</div>
+            </div>
+            <div class="pipeline-step step-hired">
+              <div class="count" id="pipe-hired">0</div>
+              <div class="step-label">
+                <i class="fas fa-briefcase check-icon"></i> Recrutes
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Calendrier Entretiens -->
+        <div class="calendar-container">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h3>
+              <i class="fas fa-calendar-alt" style="color: #003d7a"></i>
+              Calendrier des Entretiens
+            </h3>
+            <button
+              onclick="loadInterviews()"
+              style="
+                padding: 6px 12px;
+                border: 1px solid #e5e7eb;
+                border-radius: 6px;
+                background: white;
+                cursor: pointer;
+                font-size: 13px;
+              "
+            >
+              <i class="fas fa-sync-alt"></i> Actualiser
+            </button>
+          </div>
+          <div class="calendar-nav">
+            <button onclick="prevMonth()">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 id="calendar-title">Chargement...</h3>
+            <button onclick="nextMonth()">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+          <div class="interview-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #7c3aed"></div>
+              Visioconférence
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #d97706"></div>
+              Téléphone
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #059669"></div>
+              Sur site
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #003d7a"></div>
+              Autre
+            </div>
+          </div>
+        </div>
+
+        <!-- Popup détail entretien -->
+        <div
+          class="interview-detail-overlay"
+          id="interview-detail-overlay"
+          onclick="closeInterviewDetail()"
+        ></div>
+        <div class="interview-detail-popup" id="interview-detail-popup">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h3>
+              <i class="fas fa-calendar-check" style="color: #003d7a"></i>
+              Détail de l'entretien
+            </h3>
+            <button
+              onclick="closeInterviewDetail()"
+              style="
+                background: none;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                color: #6b7280;
+              "
+            >
+              &times;
+            </button>
+          </div>
+          <div id="interview-detail-content"></div>
+        </div>
+
+        <div class="charts-row">
+          <div class="card">
+            <h3><i class="fas fa-chart-bar"></i> Scores par Candidat</h3>
+            <canvas id="scoreChart" height="150"></canvas>
+          </div>
+          <div class="card">
+            <h3><i class="fas fa-layer-group"></i> Repartition des Statuts</h3>
+            <canvas id="statusChart" height="150"></canvas>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+          "
+        >
+          <button
+            id="btn-vue-table"
+            onclick="switchVue('table')"
+            style="
+              padding: 8px 18px;
+              border-radius: 8px;
+              border: 2px solid #003d7a;
+              background: #003d7a;
+              color: white;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            <i class="fas fa-table"></i> Tableau
+          </button>
+          <button
+            id="btn-vue-kanban"
+            onclick="switchVue('kanban')"
+            style="
+              padding: 8px 18px;
+              border-radius: 8px;
+              border: 2px solid #003d7a;
+              background: white;
+              color: #003d7a;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            <i class="fas fa-columns"></i> Kanban
+          </button>
+        </div>
+
+        <!-- Vue Kanban -->
+        <div
+          id="kanban-view"
+          style="display: none; overflow-x: auto; padding-bottom: 10px"
+        >
+          <div style="display: flex; gap: 14px; min-width: 1100px">
+            <div class="kanban-col" id="kanban-received" data-status="received">
+              <div class="kanban-col-header" style="background: #3b82f6">
+                <i class="fas fa-inbox"></i> Reçus
+                <span class="kanban-count" id="kcount-received">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-received"></div>
+            </div>
+            <div class="kanban-col" id="kanban-analyzed" data-status="analyzed">
+              <div class="kanban-col-header" style="background: #f59e0b">
+                <i class="fas fa-search"></i> Analysés
+                <span class="kanban-count" id="kcount-analyzed">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-analyzed"></div>
+            </div>
+            <div
+              class="kanban-col"
+              id="kanban-shortlisted"
+              data-status="shortlisted"
+            >
+              <div class="kanban-col-header" style="background: #10b981">
+                <i class="fas fa-check"></i> Présélectionnés
+                <span class="kanban-count" id="kcount-shortlisted">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-shortlisted"></div>
+            </div>
+            <div
+              class="kanban-col"
+              id="kanban-interview"
+              data-status="interview"
+            >
+              <div class="kanban-col-header" style="background: #8b5cf6">
+                <i class="fas fa-calendar"></i> Entretien
+                <span class="kanban-count" id="kcount-interview">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-interview"></div>
+            </div>
+            <div class="kanban-col" id="kanban-hired" data-status="hired">
+              <div class="kanban-col-header" style="background: #047857">
+                <i class="fas fa-certificate"></i> Recrutés
+                <span class="kanban-count" id="kcount-hired">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-hired"></div>
+            </div>
+            <div class="kanban-col" id="kanban-rejected" data-status="rejected">
+              <div class="kanban-col-header" style="background: #ef4444">
+                <i class="fas fa-times-circle"></i> Refusés
+                <span class="kanban-count" id="kcount-rejected">0</span>
+              </div>
+              <div class="kanban-cards" id="kcards-rejected"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Bouton comparer -->
+<button class="compare-btn" id="compare-btn" onclick="compareSelected()">
+  <i class="fas fa-balance-scale"></i> Comparer les candidats sélectionnés (<span id="compare-count">0</span>)
+</button>
+        <div class="card">
+          <h3><i class="fas fa-user"></i> Candidats</h3>
+          <div style="margin-bottom: 15px">
+            <input
+              type="text"
+              id="searchCandidates"
+              placeholder=" Chercher un candidat (nom, email, poste)..."
+              style="
+                width: 100%;
+                padding: 12px 14px;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: all 0.3s;
+                box-sizing: border-box;
+              "
+              onkeyup="searchCandidates(this.value)"
+              onfocus="
+                this.style.borderColor = '#003d7a';
+                this.style.boxShadow = '0 0 0 3px rgba(0, 61, 122, 0.1)';
+              "
+              onblur="
+                this.style.borderColor = '#e5e7eb';
+                this.style.boxShadow = 'none';
+              "
+            />
+          </div>
+          <div class="filters">
+            <button class="filter-btn active" onclick="filterCandidates('all')">
+              Tous
+            </button>
+            <button class="filter-btn" onclick="filterCandidates('received')">
+              <i class="fas fa-inbox"></i> Recus
+            </button>
+            <button class="filter-btn" onclick="filterCandidates('analyzed')">
+              <i class="fas fa-search"></i> Analyses
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filterCandidates('shortlisted')"
+            >
+              <i class="fas fa-check"></i> Preselectionnes
+            </button>
+            <button class="filter-btn" onclick="filterCandidates('interview')">
+              <i class="fas fa-calendar"></i> Entretien
+            </button>
+            <button class="filter-btn" onclick="filterCandidates('hired')">
+              <i class="fas fa-certificate"></i> Recrutes
+            </button>
+            <button class="filter-btn" onclick="filterCandidates('rejected')">
+              <i class="fas fa-times-circle"></i> Refuses
+            </button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"></th>
+                <th>Candidat</th>
+                <th>Poste</th>
+                <th>Score</th>
+                <th>Recommandation</th>
+                <th>Statut</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="candidates-table"></tbody>
+          </table>
+          <!-- Pagination -->
+          <div
+            id="pagination-container"
+            style="
+              margin-top: 20px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 15px 0;
+              border-top: 1px solid #f0f0f0;
+            "
+          >
+            <div style="font-size: 13px; color: #888">
+              Affichage <span id="pagination-info">0</span>
+            </div>
+            <div
+              id="pagination-controls"
+              style="display: flex; gap: 8px; align-items: center"
+            ></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-briefcase"></i> Offres d'Emploi</h3>
+            <button
+              class="btn-add-job"
+              onclick="openJobModal()"
+              title="Ajouter une offre"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Poste</th>
+                <th>Candidats</th>
+                <th>Présélectionnés</th>
+                <th>Refusés</th>
+                <th>Score Moyen</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-table"></tbody>
+          </table>
+        </div>
+
+        <!-- ====== MODAL AJOUT OFFRE D'EMPLOI ====== -->
+        <div class="modal-overlay" id="jobModal">
+          <div class="modal">
+            <div class="modal-header">
+              <h2>
+                <i class="fas fa-plus-circle"></i> Nouvelle Offre d'Emploi
+              </h2>
+            </div>
+
+            <!-- Import LinkedIn -->
+            <div class="linkedin-import-section" id="linkedin-import-section">
+              <div
+                class="linkedin-import-header"
+                onclick="toggleLinkedinImport()"
+              >
+                <div class="linkedin-import-title">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#0A66C2"
+                  >
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                  <span>Importer depuis LinkedIn</span>
+                </div>
+                <i class="fas fa-chevron-down" id="linkedin-chevron"></i>
+              </div>
+
+              <div
+                class="linkedin-import-body"
+                id="linkedin-import-body"
+                style="display: none"
+              >
+                <p class="linkedin-hint">
+                  💡 Allez sur l'offre LinkedIn → Sélectionnez tout le texte
+                  (Ctrl+A) → Copiez (Ctrl+C) → Collez ici
+                </p>
+                <textarea
+                  id="linkedin-text"
+                  class="linkedin-textarea"
+                  rows="6"
+                  placeholder="Collez ici le texte de l'offre LinkedIn...&#10;&#10;Exemple :&#10;Développeur Full Stack - Paris&#10;CDI - 3 ans d'expérience minimum&#10;Compétences : React, Node.js, Python..."
+                ></textarea>
+                <button
+                  type="button"
+                  class="linkedin-import-btn"
+                  id="linkedin-import-btn"
+                  onclick="window.importFromLinkedin()"
+                >
+                  <span class="linkedin-btn-text"
+                    ><i class="fas fa-magic"></i> Analyser et remplir</span
+                  >
+                  <span class="linkedin-btn-loader" style="display: none"
+                    ><i class="fas fa-spinner fa-spin"></i> Analyse IA en
+                    cours...</span
+                  >
+                </button>
+                <div class="linkedin-status" id="linkedin-status"></div>
+              </div>
+            </div>
+
+            <div class="linkedin-divider">
+              <span>ou remplissez manuellement</span>
+            </div>
+            <form id="jobForm" onsubmit="submitJob(event)">
+              <!-- Ligne 1 : Titre + Département -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="job-title"
+                    >Titre du poste <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="job-title"
+                    name="title"
+                    placeholder="Ex: Développeur Full Stack"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="job-department">Département</label>
+                  <input
+                    type="text"
+                    id="job-department"
+                    name="department"
+                    placeholder="Ex: Informatique"
+                  />
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="job-description">Description du poste</label>
+                <textarea
+                  id="job-description"
+                  name="description"
+                  rows="3"
+                  placeholder="Décrivez les missions et responsabilités..."
+                ></textarea>
+              </div>
+
+              <!-- Ligne 2 : Compétences requises + préférées -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="job-required-skills">Compétences requises</label>
+                  <input
+                    type="text"
+                    id="job-required-skills"
+                    name="required_skills"
+                    placeholder="Python, SQL, Docker (séparées par des virgules)"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="job-preferred-skills"
+                    >Compétences souhaitées</label
+                  >
+                  <input
+                    type="text"
+                    id="job-preferred-skills"
+                    name="preferred_skills"
+                    placeholder="AWS, Kubernetes (séparées par des virgules)"
+                  />
+                </div>
+              </div>
+
+              <!-- Ligne 3 : Expérience + Niveau d'études -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="job-experience"
+                    >Expérience minimum (années)</label
+                  >
+                  <input
+                    type="number"
+                    id="job-experience"
+                    name="min_experience"
+                    min="0"
+                    value="0"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="job-education">Niveau d'études</label>
+                  <select id="job-education" name="education_level">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="Bac">Bac</option>
+                    <option value="Bac+2">Bac+2</option>
+                    <option value="Bac+3">Bac+3 / Licence</option>
+                    <option value="Bac+5">Bac+5 / Master</option>
+                    <option value="Doctorat">Doctorat</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Ligne 4 : Type de contrat + Localisation -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="job-contract">Type de contrat</label>
+                  <select id="job-contract" name="contract_type">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="CDI">CDI</option>
+                    <option value="CDD">CDD</option>
+                    <option value="Stage">Stage</option>
+                    <option value="Freelance">Freelance</option>
+                    <option value="Alternance">Alternance</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="job-location">Localisation</label>
+                  <input
+                    type="text"
+                    id="job-location"
+                    name="location"
+                    placeholder="Ex: Paris, Remote"
+                  />
+                </div>
+              </div>
+
+              <!-- Ligne 5 : Salaire + Statut -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="job-salary">Fourchette salariale</label>
+                  <input
+                    type="text"
+                    id="job-salary"
+                    name="salary_range"
+                    placeholder="Ex: 40K - 55K €"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="job-status">Statut</label>
+                  <select id="job-status" name="status">
+                    <option value="active">Active</option>
+                    <option value="draft">Brouillon</option>
+                    <option value="closed">Fermée</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Boutons -->
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn btn-cancel"
+                  onclick="closeJobModal()"
+                >
+                  Annuler
+                </button>
+                <button type="submit" class="btn btn-submit" id="submitJobBtn">
+                  <span class="btn-text">Créer l'offre</span>
+                  <span class="btn-loader" style="display: none"
+                    ><i class="fas fa-spinner fa-spin"></i
+                  ></span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- ====== MODAL MODIFIER / SUPPRIMER OFFRE ====== -->
+      <div class="modal-overlay" id="editJobModal">
+        <div class="modal">
+          <div class="modal-header">
+            <h2 id="editModalTitle">
+              <i class="fas fa-pen"></i> Modifier l'offre
+            </h2>
+            <button class="modal-close" onclick="closeEditJobModal()">
+              &times;
+            </button>
+          </div>
+
+          <div id="editModalBody">
+            <input type="hidden" id="edit_job_id" />
+
+            <!-- Infos principales -->
+            <div class="edit-section-title">
+              <i class="fas fa-info-circle"></i> Informations principales
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Titre du poste <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="edit_title"
+                  placeholder="Ex: Développeur Full Stack"
+                />
+              </div>
+              <div class="form-group">
+                <label>Département</label>
+                <input
+                  type="text"
+                  id="edit_department"
+                  placeholder="Ex: IT, RH, Marketing"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                id="edit_description"
+                rows="3"
+                placeholder="Description du poste..."
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Type de contrat</label>
+                <select id="edit_contract_type">
+                  <option value="">-- Sélectionner --</option>
+                  <option value="CDI">CDI</option>
+                  <option value="CDD">CDD</option>
+                  <option value="Stage">Stage</option>
+                  <option value="Alternance">Alternance</option>
+                  <option value="Freelance">Freelance</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Localisation</label>
+                <input
+                  type="text"
+                  id="edit_location"
+                  placeholder="Ex: Paris, Remote"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Fourchette salariale</label>
+                <input
+                  type="text"
+                  id="edit_salary_range"
+                  placeholder="Ex: 40K - 55K €"
+                />
+              </div>
+              <div class="form-group">
+                <label>Statut</label>
+                <select id="edit_status">
+                  <option value="active">🟢 Active</option>
+                  <option value="closed">🔴 Fermée</option>
+                  <option value="draft">⚪ Brouillon</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Compétences -->
+            <div class="edit-section-title">
+              <i class="fas fa-bullseye"></i> Compétences & Prérequis
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Compétences requises</label>
+                <input
+                  type="text"
+                  id="edit_required_skills"
+                  placeholder="Python, SQL, Docker"
+                />
+              </div>
+              <div class="form-group">
+                <label>Compétences souhaitées</label>
+                <input
+                  type="text"
+                  id="edit_preferred_skills"
+                  placeholder="AWS, Kubernetes"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expérience minimum (années)</label>
+                <input
+                  type="number"
+                  id="edit_min_experience"
+                  min="0"
+                  max="30"
+                  value="0"
+                />
+              </div>
+              <div class="form-group">
+                <label>Niveau d'études</label>
+                <select id="edit_education_level">
+                  <option value="">-- Sélectionner --</option>
+                  <option value="Bac">Bac</option>
+                  <option value="Bac+2">Bac+2</option>
+                  <option value="Bac+3">Bac+3 / Licence</option>
+                  <option value="Bac+5">Bac+5 / Master</option>
+                  <option value="Doctorat">Doctorat</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Scoring IA -->
+            <div class="edit-section-title">
+              <i class="fas fa-robot"></i> Configuration Scoring IA
+            </div>
+            <p class="scoring-hint">💡 Le total des poids doit faire 100%</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Poids Compétences (%)</label>
+                <input
+                  type="number"
+                  id="edit_skills_weight"
+                  min="0"
+                  max="100"
+                  value="40"
+                />
+              </div>
+              <div class="form-group">
+                <label>Poids Expérience (%)</label>
+                <input
+                  type="number"
+                  id="edit_experience_weight"
+                  min="0"
+                  max="100"
+                  value="25"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Poids Formation (%)</label>
+                <input
+                  type="number"
+                  id="edit_education_weight"
+                  min="0"
+                  max="100"
+                  value="20"
+                />
+              </div>
+              <div class="form-group">
+                <label>Poids Motivation (%)</label>
+                <input
+                  type="number"
+                  id="edit_motivation_weight"
+                  min="0"
+                  max="100"
+                  value="15"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Score min Présélection</label>
+                <input
+                  type="number"
+                  id="edit_min_score_shortlist"
+                  min="0"
+                  max="100"
+                  value="70"
+                />
+              </div>
+              <div class="form-group">
+                <label>Score min Rejet auto</label>
+                <input
+                  type="number"
+                  id="edit_min_score_auto_reject"
+                  min="0"
+                  max="100"
+                  value="30"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer avec boutons -->
+          <div class="edit-modal-footer">
+            <button
+              class="btn-delete-job"
+              id="btnDeleteJob"
+              onclick="deleteJob()"
+            >
+              <i class="fas fa-trash"></i> Supprimer l'offre
+            </button>
+            <div class="right-actions">
+              <button class="btn btn-cancel" onclick="closeEditJobModal()">
+                Annuler
+              </button>
+              <button
+                class="btn-edit-save"
+                id="btnSaveJob"
+                onclick="updateJob()"
+              >
+                <i class="fas fa-save"></i> Enregistrer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ====== CHATBOT IA FLOTTANT ====== -->
+      <div class="chatbot-bubble" id="chatbot-bubble" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-badge" id="chatbot-badge" style="display: none"
+          >1</span
+        >
+      </div>
+
+      <div class="chatbot-window" id="chatbot-window">
+        <div class="chatbot-header">
+          <div class="chatbot-header-info">
+            <div class="chatbot-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div>
+              <div class="chatbot-title">Assistant IA Recrutement</div>
+              <div class="chatbot-status">
+                <span class="chatbot-status-dot"></span> En ligne
+              </div>
+            </div>
+          </div>
+          <button class="chatbot-close" onclick="toggleChatbot()">
+            &times;
+          </button>
+        </div>
+
+        <div class="chatbot-messages" id="chatbot-messages">
+          <div class="chat-message bot">
+            <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+            <div class="chat-content">
+              <p>Bonjour ! 👋 Je suis votre assistant IA recrutement.</p>
+              <p>Je peux vous aider à :</p>
+              <ul>
+                <li>🔍 Trouver le meilleur candidat pour un poste</li>
+                <li>📊 Analyser les scores et statistiques</li>
+                <li>📋 Résumer le profil d'un candidat</li>
+                <li>⚖️ Comparer des candidats entre eux</li>
+                <li>💡 Donner des recommandations</li>
+              </ul>
+              <p>Posez-moi votre question !</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="chatbot-suggestions" id="chatbot-suggestions">
+          <button
+            class="suggestion-btn"
+            onclick="askSuggestion('Qui est le meilleur candidat ?')"
+          >
+            🏆 Meilleur candidat
+          </button>
+          <button
+            class="suggestion-btn"
+            onclick="askSuggestion('Donne moi un résumé global du recrutement')"
+          >
+            📊 Résumé global
+          </button>
+          <button
+            class="suggestion-btn"
+            onclick="
+              askSuggestion('Quels candidats dois-je convoquer en entretien ?')
+            "
+          >
+            📅 À convoquer
+          </button>
+          <button
+            class="suggestion-btn"
+            onclick="askSuggestion('Compare les candidats présélectionnés')"
+          >
+            ⚖️ Comparer
+          </button>
+        </div>
+
+        <div class="chatbot-input-area">
+          <input
+            type="text"
+            id="chatbot-input"
+            placeholder="Posez votre question..."
+            onkeypress="if (event.key === 'Enter') sendChatMessage();"
+          />
+          <button
+            class="chatbot-send"
+            id="chatbot-send-btn"
+            onclick="sendChatMessage()"
+          >
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Detail Candidat -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <h2 id="modal-name"></h2>
+        <p class="modal-email" id="modal-email"></p>
+
+        <div class="modal-section">
+          <h4><i class="fas fa-list"></i> Informations</h4>
+          <p><strong>Poste :</strong> <span id="modal-job"></span></p>
+          <p><strong>Statut :</strong> <span id="modal-status-text"></span></p>
+          <p><strong>Date :</strong> <span id="modal-date"></span></p>
+        </div>
+
+        <div class="modal-section">
+          <h4><i class="fas fa-chart-bar"></i> Scores Detailles</h4>
+          <div class="score-detail">
+            <span class="score-detail-label">Competences</span>
+            <div class="score-detail-bar">
+              <div class="score-detail-fill" id="bar-skills"></div>
+            </div>
+            <span class="score-detail-value" id="val-skills">0</span>
+          </div>
+          <div class="score-detail">
+            <span class="score-detail-label">Experience</span>
+            <div class="score-detail-bar">
+              <div class="score-detail-fill" id="bar-experience"></div>
+            </div>
+            <span class="score-detail-value" id="val-experience">0</span>
+          </div>
+          <div class="score-detail">
+            <span class="score-detail-label">Formation</span>
+            <div class="score-detail-bar">
+              <div class="score-detail-fill" id="bar-education"></div>
+            </div>
+            <span class="score-detail-value" id="val-education">0</span>
+          </div>
+          <div class="score-detail">
+            <span class="score-detail-label">Motivation</span>
+            <div class="score-detail-bar">
+              <div class="score-detail-fill" id="bar-motivation"></div>
+            </div>
+            <span class="score-detail-value" id="val-motivation">0</span>
+          </div>
+          <div
+            class="score-detail"
+            style="
+              margin-top: 10px;
+              padding-top: 10px;
+              border-top: 1px solid #eee;
+            "
+          >
+            <span class="score-detail-label"
+              ><strong>Score Global</strong></span
+            >
+            <div class="score-detail-bar">
+              <div
+                class="score-detail-fill"
+                id="bar-overall"
+                style="background: #003d7a"
+              ></div>
+            </div>
+            <span
+              class="score-detail-value"
+              id="val-overall"
+              style="color: #003d7a"
+              >0</span
+            >
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h4><i class="fas fa-file-alt"></i> Resume IA</h4>
+          <div class="modal-summary" id="modal-summary"></div>
+        </div>
+        <div class="cv-viewer" id="cv-viewer">
+          <div class="cv-viewer-header">
+            <h4><i class="fas fa-file-alt"></i> Contenu du CV</h4>
+            <button
+              onclick="toggleCV()"
+              style="
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 18px;
+              "
+            >
+              &times;
+            </button>
+          </div>
+          <div class="cv-viewer-body" id="cv-viewer-body">Chargement...</div>
+        </div>
+        <div class="modal-actions" id="modal-actions"></div>
+
+        <!-- Formulaire entretien -->
+        <div
+          id="interview-form"
+          style="
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+          "
+        >
+          <h4 style="margin-bottom: 15px; color: #7c3aed">
+            <i class="fas fa-calendar-alt"></i> Planifier l entretien
+          </h4>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 15px;
+            "
+          >
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-size: 13px;
+                  color: #555;
+                  margin-bottom: 4px;
+                "
+                >Date</label
+              >
+              <input
+                type="date"
+                id="interview-date"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 8px;
+                  font-size: 14px;
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-size: 13px;
+                  color: #555;
+                  margin-bottom: 4px;
+                "
+                >Heure</label
+              >
+              <input
+                type="time"
+                id="interview-time"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 8px;
+                  font-size: 14px;
+                "
+              />
+            </div>
+          </div>
+          <div style="margin-bottom: 15px">
+            <label
+              style="
+                display: block;
+                font-size: 13px;
+                color: #555;
+                margin-bottom: 4px;
+              "
+              >Type d entretien</label
+            >
+            <select
+              id="interview-type"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                font-size: 14px;
+              "
+            >
+              <option value="video">
+                <i class="fas fa-video"></i> Visioconference
+              </option>
+              <option value="phone">
+                <i class="fas fa-phone"></i> Telephone
+              </option>
+              <option value="onsite">
+                <i class="fas fa-building"></i> Sur site
+              </option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <button
+              onclick="confirmInterview()"
+              style="
+                flex: 1;
+                padding: 12px;
+                background: #7c3aed;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              <i class="fas fa-check"></i> Confirmer et envoyer l email
+            </button>
+            <button
+              onclick="cancelInterview()"
+              style="
+                padding: 12px 20px;
+                background: #f3f4f6;
+                color: #374151;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+              "
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+
+        <div class="modal-status" id="modal-action-status"></div>
+        <button
+          class="modal-btn btn-close"
+          onclick="closeModal()"
+          style="width: 100%; margin-top: 10px"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+    <!-- Modal Comparaison -->
+<div class="compare-modal-overlay" id="compare-modal-overlay" onclick="closeCompareModal()"></div>
+<div class="compare-modal" id="compare-modal">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h2><i class="fas fa-balance-scale" style="color:#7c3aed;"></i> Comparaison des Candidats</h2>
+    <button onclick="closeCompareModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#6b7280;">&times;</button>
+  </div>
+  <div id="compare-modal-content"></div>
+</div>
+    <script src="script.js"></script>
+    <script src="sidebar.js"></script>
+  </body>
+</html>

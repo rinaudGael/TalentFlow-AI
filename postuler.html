@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexaCore Technologies — Rejoignez notre équipe</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nexacore.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    /* ====== POSTULER PAGE STYLES ====== */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f7;
+      color: #1f2937;
+    }
+
+    .postuler-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .postuler-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .postuler-header h1 {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #003d7a 0%, #0055b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .postuler-header p {
+      font-size: 18px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .card h3 {
+      color: #1f2937;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+      letter-spacing: -0.2px;
+    }
+
+    .form-group .required {
+      color: #dc2626;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #f9fafb;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #003d7a;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(0, 61, 122, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .file-upload {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #f9fafb;
+    }
+
+    .file-upload:hover {
+      border-color: #003d7a;
+      background: #eff4ff;
+    }
+
+    .file-upload.has-file {
+      border-color: #059669;
+      background: #ecfdf5;
+      border-style: solid;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .file-upload .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      color: #6b7280;
+    }
+
+    .file-upload .text {
+      color: #6b7280;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .file-upload .filename {
+      color: #059669;
+      font-weight: 600;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #003d7a 0%, #0055b8 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0, 61, 122, 0.35);
+      letter-spacing: -0.3px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .alert {
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      color: #065f46;
+      border-left-color: #10b981;
+    }
+
+    .alert-error {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      color: #991b1b;
+      border-left-color: #dc2626;
+    }
+
+    .alert i {
+      margin-right: 10px;
+    }
+
+    .offers-list {
+      margin-bottom: 24px;
+    }
+
+    .offer-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #f9fafb;
+    }
+
+    .offer-card:hover {
+      border-color: #003d7a;
+      background: #eff4ff;
+    }
+
+    .offer-card.selected {
+      border-color: #003d7a;
+      background: #eff4ff;
+      box-shadow: 0 0 0 3px rgba(0, 61, 122, 0.1);
+    }
+
+    .offer-card h4 {
+      color: #1f2937;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .offer-card p {
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .offer-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #d0e5ff;
+      color: #003d7a;
+      margin-top: 8px;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .lm-toggle {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .lm-toggle button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #003d7a;
+      background: white;
+      color: #003d7a;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .lm-toggle button.active {
+      background: #003d7a;
+      color: white;
+    }
+
+    .lm-extract-banner {
+      display: none;
+      padding: 12px 16px;
+      background: #ecfdf5;
+      border: 2px solid #059669;
+      border-radius: 8px;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    #pagination-controls {
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+
+    #pagination-controls button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 0 8px;
+      transition: all 0.2s ease;
+    }
+
+    #pagination-controls button:hover:not(:disabled) {
+      background: #f9fafb;
+      border-color: #003d7a;
+    }
+
+    #pagination-controls button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #page-info {
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0 12px;
+    }
+
+    @media (max-width: 768px) {
+      .postuler-container {
+        padding: 40px 16px;
+      }
+
+      .postuler-header h1 {
+        font-size: 32px;
+      }
+
+      .postuler-header p {
+        font-size: 16px;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .card h3 {
+        font-size: 16px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .file-upload {
+        padding: 32px 16px;
+      }
+
+      .file-upload .icon {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .postuler-container {
+        padding: 24px 12px;
+      }
+
+      .postuler-header h1 {
+        font-size: 24px;
+      }
+
+      .postuler-header p {
+        font-size: 14px;
+      }
+
+      .card {
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .card h3 {
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        font-size: 13px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      .file-upload {
+        padding: 24px 12px;
+      }
+
+      .file-upload .icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+
+      .file-upload .text {
+        font-size: 13px;
+      }
+
+      .submit-btn {
+        font-size: 14px;
+        padding: 12px 16px;
+      }
+
+      .offer-card {
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+
+      .offer-card h4 {
+        font-size: 13px;
+      }
+
+      .offer-card p {
+        font-size: 12px;
+      }
+
+      .alert {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+
+      .lm-toggle {
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .lm-toggle button {
+        padding: 10px;
+        font-size: 12px;
+      }
+    }
+  
+      .header { padding: 30px 20px; }
+      .header h1 { font-size: 24px; }
+      .card { padding: 24px; }
+      .file-upload { padding: 30px 16px; }
+      .submit-btn { font-size: 15px; padding: 12px 14px; }
+    
+    @media (max-width: 480px) {
+      .page { padding: 12px; }
+      .header { padding: 24px 16px; border-radius: 12px; }
+      .header h1 { font-size: 20px; }
+      .header p { font-size: 14px; }
+      .card { padding: 20px; margin-bottom: 20px; }
+      .card h3 { font-size: 15px; margin-bottom: 16px; }
+      .form-group label { font-size: 13px; }
+      .form-group input,
+      .form-group select,
+      .form-group textarea { font-size: 13px; padding: 10px 12px; }
+      .file-upload { padding: 24px 12px; }
+      .file-upload .icon { font-size: 32px; }
+      .file-upload .text { font-size: 13px; }
+      .submit-btn { font-size: 14px; padding: 12px; }
+      .offer-card { padding: 12px; margin-bottom: 10px; }
+      .offer-card h4 { font-size: 14px; }
+      .offer-card p { font-size: 12px; }
+      .alert { padding: 12px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== NAVBAR ====== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="nexacore.html" class="nav-logo">
+        <div class="logo-mark">N</div>
+        <div class="logo-text">
+          <span class="logo-name">NexaCore</span>
+          <span class="logo-sub">Technologies</span>
+        </div>
+      </a>
+
+      <button class="nav-burger" id="navBurger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="nexacore.html">Accueil</a></li>
+        <li><a href="nexacore.html#expertises">Expertises</a></li>
+        <li><a href="nexacore.html#realisations">Réalisations</a></li>
+        <li><a href="nexacore.html#temoignages">Clients</a></li>
+        <li><a href="postuler.html" class="active nav-cta">
+          <i class="fas fa-users"></i> Nous rejoindre
+        </a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== MAIN CONTENT ====== -->
+<div class="postuler-container">
+
+  <div class="postuler-header">
+    <h1><i class="fas fa-briefcase"></i> Rejoignez NexaCore</h1>
+    <p>Remplissez le formulaire ci-dessous pour soumettre votre candidature</p>
+  </div>
+
+  <div id="alert-success" class="alert alert-success">
+    <i class="fas fa-check-circle"></i> <strong>Candidature envoyee avec succes !</strong><br>
+    <span id="success-message"></span>
+  </div>
+
+  <div id="alert-error" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i> <strong>Erreur</strong><br>
+    <span id="error-message"></span>
+  </div>
+
+  <!-- Choix de l'offre -->
+  <div class="card">
+    <h3><i class="fas fa-briefcase"></i> Choisissez une offre d emploi <span class="required">*</span></h3>
+    <div id="offers-list" class="offers-list">
+      <p style="color:#888;">Chargement des offres...</p>
+    </div>
+    <div id="pagination-controls" style="display:none; text-align:center; margin-top: 16px;">
+      <button id="prev-page" onclick="changePage(currentPage-1)" style="margin-right:8px; padding:6px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#ffffff;">&laquo; Précédent</button>
+      <span id="page-info" style="font-weight:600; color:#1f2937;"></span>
+      <button id="next-page" onclick="changePage(currentPage+1)" style="margin-left:8px; padding:6px 12px; border-radius:6px; border:1px solid #cbd5e1; background:#ffffff;">Suivant &raquo;</button>
+    </div>
+  </div>
+
+  <!-- Informations personnelles -->
+  <div class="card">
+    <h3><i class="fas fa-user"></i> Informations Personnelles</h3>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Prenom <span class="required">*</span></label>
+        <input type="text" id="first_name" placeholder="Votre prenom" required>
+      </div>
+      <div class="form-group">
+        <label>Nom <span class="required">*</span></label>
+        <input type="text" id="last_name" placeholder="Votre nom" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="votre.email@exemple.com" required>
+      </div>
+      <div class="form-group">
+        <label>Telephone</label>
+        <input type="tel" id="phone" placeholder="06 12 34 56 78">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>LinkedIn (optionnel)</label>
+        <input type="url" id="linkedin_url" placeholder="https://linkedin.com/in/votre-profil">
+      </div>
+      <div class="form-group">
+        <label>Portfolio (optionnel)</label>
+        <input type="url" id="portfolio_url" placeholder="https://votre-site.com">
+      </div>
+    </div>
+  </div>
+
+  <!-- CV Upload -->
+  <div class="card">
+    <h3><i class="fas fa-file-pdf"></i> Votre CV</h3>
+    <div class="file-upload" id="file-upload" onclick="document.getElementById('cv_file').click();">
+      <div class="icon"><i class="fas fa-paperclip" style="font-size: 40px;"></i></div>
+      <div class="text">Cliquez pour uploader votre CV (PDF)</div>
+      <div class="filename" id="file-name" style="display:none;"></div>
+      <input type="file" id="cv_file" accept=".pdf" onchange="handleFileSelect(this)">
+    </div>
+  </div>
+
+  <!-- Lettre de motivation -->
+<div class="card">
+  <h3><i class="fas fa-pen"></i> Lettre de Motivation <span class="required">*</span></h3>
+  
+  <!-- Toggle options -->
+  <div class="lm-toggle">
+    <button type="button" id="btn-lm-ecrire" class="active" onclick="switchLM('ecrire')">
+      <i class="fas fa-pen"></i> Écrire
+    </button>
+    <button type="button" id="btn-lm-upload" onclick="switchLM('upload')">
+      <i class="fas fa-file-pdf"></i> Uploader un PDF
+    </button>
+  </div>
+
+  <!-- Option 1 : Écrire -->
+  <div id="lm-ecrire" class="form-group">
+    <textarea id="cover_letter" placeholder="Décrivez votre parcours, vos compétences et votre motivation pour ce poste..."></textarea>
+  </div>
+
+  <!-- Option 2 : Upload PDF -->
+  <div id="lm-upload" style="display:none;">
+    <div class="file-upload" id="lm-file-upload" onclick="document.getElementById('lm_file').click();">
+      <div class="icon"><i class="fas fa-file-pdf" style="font-size:40px; color:#dc2626;"></i></div>
+      <div class="text">Cliquez pour uploader votre lettre de motivation (PDF)</div>
+      <div class="filename" id="lm-file-name" style="display:none;"></div>
+      <input type="file" id="lm_file" accept=".pdf" onchange="handleLMFileSelect(this)">
+    </div>
+    <div class="lm-extract-banner" id="lm-extract-banner">
+      <i class="fas fa-check-circle"></i> Lettre de motivation extraite avec succès !
+    </div>
+  </div>
+</div>
+
+  <!-- Bouton submit -->
+  <button class="submit-btn" id="submit-btn" onclick="submitApplication()">
+    <i class="fas fa-envelope"></i> Envoyer ma Candidature
+  </button>
+
+</div>
+
+<script>
+  const API_BASE = 'https://vmi3051438.contaboserver.net/webhook';
+  let selectedJobId = null;
+  let cvFileContent = null;
+  let allOffers = [];
+  let currentPage = 1;
+  const offersPerPage = 3;
+
+  function renderOffers() {
+    const offersList = document.getElementById('offers-list');
+    const pinfo = document.getElementById('page-info');
+    const prevBtn = document.getElementById('prev-page');
+    const nextBtn = document.getElementById('next-page');
+    const pagination = document.getElementById('pagination-controls');
+
+    const activeOffers = allOffers.filter(offer => offer.status === 'active');
+    if (activeOffers.length === 0) {
+      offersList.innerHTML = '<p>Aucune offre disponible</p>';
+      pagination.style.display = 'none';
+      return;
+    }
+
+    const totalPages = Math.ceil(activeOffers.length / offersPerPage);
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const startIndex = (currentPage - 1) * offersPerPage;
+    const endIndex = startIndex + offersPerPage;
+    const pageOffers = activeOffers.slice(startIndex, endIndex);
+
+    let offersHtml = '';
+    pageOffers.forEach(function(job) {
+      offersHtml += '<div class="offer-card" id="offer-' + job.id + '" onclick="selectOffer(' + job.id + ')">' +
+        '<h4>' + job.title + '</h4>' +
+        '<p>' + job.total_candidates + ' candidat(s) - Score moyen: ' + (job.avg_score || 'N/A') + '</p>' +
+        '<span class="offer-badge">Active</span>' +
+        '</div>';
+    });
+
+    offersList.innerHTML = offersHtml;
+    pinfo.textContent = 'Page ' + currentPage + ' sur ' + totalPages;
+    pagination.style.display = totalPages > 1 ? 'block' : 'none';
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    renderOffers();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Charger les offres d emploi
+  async function loadOffers() {
+    try {
+      const res = await fetch(API_BASE + '/api/dashboard');
+      var rawData = await res.json();
+      var data = Array.isArray(rawData) ? rawData[0] : rawData;
+
+      allOffers = Array.isArray(data.data.jobs) ? data.data.jobs : [];
+      currentPage = 1;
+      renderOffers();
+    } catch (e) {
+      document.getElementById('offers-list').innerHTML = '<p style="color:red;">Erreur de chargement des offres</p>';
+      var pagination = document.getElementById('pagination-controls');
+      if (pagination) pagination.style.display = 'none';
+    }
+  }
+
+  function selectOffer(id) {
+    // Deselectionner tous
+    document.querySelectorAll('.offer-card').forEach(function(card) {
+      card.classList.remove('selected');
+    });
+    // Selectionner celui-ci
+    document.getElementById('offer-' + id).classList.add('selected');
+    selectedJobId = id;
+  }
+
+  function handleFileSelect(input) {
+    var file = input.files[0];
+    if (file) {
+      var uploadDiv = document.getElementById('file-upload');
+      var fileNameDiv = document.getElementById('file-name');
+      uploadDiv.classList.add('has-file');
+      fileNameDiv.style.display = 'block';
+      fileNameDiv.innerHTML = '<i class="fas fa-file" style="margin-right: 4px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+
+      // Lire le fichier en base64
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        cvFileContent = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  async function submitApplication() {
+    // Validation
+    var firstName = document.getElementById('first_name').value.trim();
+    var lastName = document.getElementById('last_name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var linkedinUrl = document.getElementById('linkedin_url').value.trim();
+    var portfolioUrl = document.getElementById('portfolio_url').value.trim();
+    var coverLetter = document.getElementById('cover_letter').value.trim();
+
+    // Cacher les alertes
+    document.getElementById('alert-success').style.display = 'none';
+    document.getElementById('alert-error').style.display = 'none';
+
+    // Verifier les champs obligatoires
+    var errors = [];
+    if (!selectedJobId) errors.push('Veuillez choisir une offre d emploi');
+    if (!firstName) errors.push('Le prenom est obligatoire');
+    if (!lastName) errors.push('Le nom est obligatoire');
+    if (!email) errors.push('L email est obligatoire');
+    if (!coverLetter) errors.push('La lettre de motivation est obligatoire');
+
+    if (errors.length > 0) {
+      document.getElementById('error-message').textContent = errors.join(', ');
+      document.getElementById('alert-error').style.display = 'block';
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Desactiver le bouton
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Envoi en cours...';
+
+    try {
+      var body = {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        linkedin_url: linkedinUrl,
+        portfolio_url: portfolioUrl,
+        cover_letter: coverLetter,
+        job_offer_id: selectedJobId
+      };
+
+      var res = await fetch(API_BASE + '/candidature', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('success-message').textContent =
+        'Votre candidature a ete enregistree. Vous recevrez un email de confirmation sous peu.';
+      document.getElementById('alert-success').style.display = 'block';
+
+      // Reset le formulaire
+      document.getElementById('first_name').value = '';
+      document.getElementById('last_name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('linkedin_url').value = '';
+      document.getElementById('portfolio_url').value = '';
+      document.getElementById('cover_letter').value = '';
+      selectedJobId = null;
+      document.querySelectorAll('.offer-card').forEach(function(card) {
+        card.classList.remove('selected');
+      });
+
+      window.scrollTo(0, 0);
+
+    } catch (e) {
+      document.getElementById('error-message').textContent = 'Erreur lors de l envoi. Veuillez reessayer.';
+      document.getElementById('alert-error').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-envelope"></i> Envoyer ma Candidature';
+  }
+
+  // Charger les offres au demarrage
+  loadOffers();
+
+  function switchLM(mode) {
+  if (mode === 'ecrire') {
+    document.getElementById('lm-ecrire').style.display = 'block';
+    document.getElementById('lm-upload').style.display = 'none';
+    document.getElementById('btn-lm-ecrire').style.background = '#003d7a';
+    document.getElementById('btn-lm-ecrire').style.color = 'white';
+    document.getElementById('btn-lm-upload').style.background = 'white';
+    document.getElementById('btn-lm-upload').style.color = '#003d7a';
+    // Vider le textarea si on revient en mode écrire
+    document.getElementById('cover_letter').value = '';
+  } else {
+    document.getElementById('lm-ecrire').style.display = 'none';
+    document.getElementById('lm-upload').style.display = 'block';
+    document.getElementById('btn-lm-upload').style.background = '#003d7a';
+    document.getElementById('btn-lm-upload').style.color = 'white';
+    document.getElementById('btn-lm-ecrire').style.background = 'white';
+    document.getElementById('btn-lm-ecrire').style.color = '#003d7a';
+  }
+}
+
+async function handleLMFileSelect(input) {
+  var file = input.files[0];
+  if (!file) return;
+
+  var uploadDiv = document.getElementById('lm-file-upload');
+  var fileNameDiv = document.getElementById('lm-file-name');
+
+  uploadDiv.classList.add('has-file');
+  fileNameDiv.style.display = 'block';
+  fileNameDiv.innerHTML = '<i class="fas fa-file-pdf" style="margin-right:4px;color:#dc2626;"></i>' + file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)';
+
+  uploadDiv.querySelector('.text').textContent = 'Lecture du PDF...';
+  uploadDiv.querySelector('.icon').innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:40px;color:#003d7a;"></i>';
+
+  try {
+    // Extraire le texte avec PDF.js
+    const arrayBuffer = await file.arrayBuffer();
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(item => item.str).join(' ') + '\n';
+    }
+
+    // Envoyer le texte à n8n
+    var res = await fetch(API_BASE + '/api/extract-lm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cv_text: fullText.substring(0, 3000) })
+    });
+
+    var rawData = await res.json();
+    var data = Array.isArray(rawData) ? rawData[0] : rawData;
+
+    if (data.success && data.text) {
+      document.getElementById('cover_letter').value = data.text;
+      document.getElementById('lm-extract-banner').style.display = 'block';
+    } else {
+      throw new Error(data.message || 'Extraction echouee');
+    }
+
+  } catch (e) {
+    console.log('Erreur:', e);
+    alert('Erreur: ' + e.message);
+    switchLM('ecrire');
+  }
+
+  uploadDiv.querySelector('.icon').innerHTML = '<i class="fas fa-file-pdf" style="font-size:40px;color:#dc2626;"></i>';
+  uploadDiv.querySelector('.text').textContent = 'Cliquez pour uploader votre lettre de motivation (PDF)';
+}
+</script>
+
+</body>
+</html>

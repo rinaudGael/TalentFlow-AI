@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentFlow AI - Connexion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f2f5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 61, 122, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 85, 184, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(0, 61, 122, 0.03) 0%, transparent 50%);
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-logo { margin-bottom: 16px; }
+
+    .login-header h1 {
+      font-size: 22px;
+      color: #003d7a;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .login-header p {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 30px rgba(0,0,0,0.04);
+    }
+
+    .login-card h2 {
+      font-size: 18px;
+      color: #1f2937;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 14px;
+      transition: color 0.2s;
+      pointer-events: none;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1f2937;
+      background: #f9fafb;
+      transition: all 0.2s;
+    }
+
+    .input-wrapper input:focus {
+      outline: none;
+      border-color: #003d7a;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(0, 61, 122, 0.08);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:hover { color: #003d7a; }
+
+    .error-message {
+      display: none;
+      background: #fef2f2;
+      color: #b91c1c;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      border: 1px solid #fecaca;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .error-message.show {
+      display: flex;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #003d7a, #0055b8);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-login:hover {
+      box-shadow: 0 4px 15px rgba(0, 61, 122, 0.35);
+    }
+
+    .btn-login:active { transform: scale(0.98); }
+
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-login .spinner { display: none; }
+    .btn-login.loading .spinner { display: inline; }
+    .btn-login.loading .btn-text { display: none; }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(8px); }
+      75% { transform: translateX(-4px); }
+    }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 28px 20px; }
+      .login-container { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+
+  <div class="login-header">
+    <div class="login-logo">
+      <svg width="48" height="48" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <circle cx="9" cy="16" r="4" fill="#003d7a"/>
+        <circle cx="16" cy="10" r="3" fill="#0055b8"/>
+        <circle cx="23" cy="14" r="4" fill="#003d7a"/>
+        <circle cx="19" cy="22" r="3" fill="#0055b8"/>
+        <circle cx="12" cy="24" r="2.5" fill="#003d7a"/>
+        <line x1="9" y1="16" x2="16" y2="10" stroke="#003d7a" stroke-width="1" opacity="0.3"/>
+        <line x1="16" y1="10" x2="23" y2="14" stroke="#003d7a" stroke-width="1" opacity="0.3"/>
+        <line x1="23" y1="14" x2="19" y2="22" stroke="#003d7a" stroke-width="1" opacity="0.3"/>
+        <line x1="19" y1="22" x2="12" y2="24" stroke="#003d7a" stroke-width="1" opacity="0.3"/>
+        <line x1="12" y1="24" x2="9" y2="16" stroke="#003d7a" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+    <h1>TalentFlow AI</h1>
+    <p>Système de Recrutement IA</p>
+  </div>
+
+  <div class="login-card">
+    <h2><i class="fas fa-lock" style="margin-right:8px; color:#003d7a;"></i>Connexion</h2>
+
+    <div class="error-message" id="errorMsg">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText"></span>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="input-group">
+        <label for="username">Nom d'utilisateur</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" id="username" placeholder="Entrez votre identifiant" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="password" placeholder="Entrez votre mot de passe" required autocomplete="current-password">
+          <button type="button" class="toggle-password" onclick="togglePassword()">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login" id="btnLogin">
+        <span class="btn-text">Se connecter</span>
+        <i class="fas fa-spinner fa-spin spinner"></i>
+      </button>
+    </form>
+  </div>
+
+  <div class="login-footer">
+    © 2026 TalentFlow AI — Accès réservé aux administrateurs
+  </div>
+
+</div>
+
+<script>
+  // ==========================================
+  //  CONFIGURATION
+  // ==========================================
+
+  var LOGIN_API_URL = 'https://vmi3051438.contaboserver.net/webhook/api/login';
+
+  // ==========================================
+  //  VÉRIFIER SI DÉJÀ CONNECTÉ
+  // ==========================================
+
+  window.addEventListener('load', function() {
+    var isLoggedIn = sessionStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+      window.location.href = 'index.html';
+      return;
+    }
+    document.getElementById('username').focus();
+  });
+
+  // ==========================================
+  //  LOGIN VIA N8N API
+  // ==========================================
+
+  async function handleLogin(event) {
+    event.preventDefault();
+
+    var btn = document.getElementById('btnLogin');
+    var errorDiv = document.getElementById('errorMsg');
+    var errorText = document.getElementById('errorText');
+
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value;
+
+    // Cacher erreur précédente
+    errorDiv.classList.remove('show');
+
+    // Validation locale
+    if (!username || !password) {
+      showError('Veuillez remplir tous les champs');
+      return;
+    }
+
+    // État de chargement
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    try {
+      var response = await fetch(LOGIN_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
+
+      var result = await response.json();
+      // Gérer format tableau ou objet
+      var data = Array.isArray(result) ? result[0] : result;
+
+      if (data.success && data.user) {
+        // ✅ Connexion réussie
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('username', data.user.display_name);
+        sessionStorage.setItem('userRole', data.user.role);
+        sessionStorage.setItem('userEmail', data.user.email || '');
+        sessionStorage.setItem('userId', data.user.id);
+        sessionStorage.setItem('loginTime', new Date().toISOString());
+        if (data.token) sessionStorage.setItem('authToken', data.token);
+
+        // Rediriger vers le dashboard
+        window.location.href = 'index.html';
+
+      } else {
+        // ❌ Échec
+        showError(data.message || 'Identifiants incorrects');
+        btn.classList.remove('loading');
+        btn.disabled = false;
+
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+
+    } catch (error) {
+      console.error('Erreur connexion:', error);
+      showError('Impossible de contacter le serveur. Vérifiez votre connexion.');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  // ==========================================
+  //  AFFICHER ERREUR
+  // ==========================================
+
+  function showError(message) {
+    var errorDiv = document.getElementById('errorMsg');
+    var errorText = document.getElementById('errorText');
+
+    errorText.textContent = message;
+    errorDiv.classList.add('show');
+
+    // Shake
+    var card = document.querySelector('.login-card');
+    card.style.animation = 'shake 0.4s ease';
+    setTimeout(function() { card.style.animation = ''; }, 400);
+  }
+
+  // ==========================================
+  //  TOGGLE PASSWORD
+  // ==========================================
+
+  function togglePassword() {
+    var input = document.getElementById('password');
+    var icon = document.getElementById('eyeIcon');
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  }
+</script>
+
+</body>
+</html>
