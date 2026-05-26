@@ -993,6 +993,53 @@ document.getElementById('cv-viewer-body').textContent = 'Chargement...';
         }
       }
 
+async function deleteJob() {
+  var jobId = document.getElementById("edit_job_id").value;
+  var jobTitle = document.getElementById("edit_title").value;
+
+  var confirmMsg =
+    'SUPPRIMER "' + jobTitle + '" ?\n\n' +
+    "Cela supprimera DÉFINITIVEMENT :\n" +
+    "• L'offre d'emploi\n" +
+    "• Tous les candidats associés\n" +
+    "• Toutes les analyses IA\n" +
+    "• Toutes les communications\n\n" +
+    "Cette action est IRRÉVERSIBLE !";
+
+  if (!confirm(confirmMsg)) return;
+  if (!confirm("Dernière confirmation : SUPPRIMER DÉFINITIVEMENT ?")) return;
+
+  var btn = document.getElementById("btnDeleteJob");
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Suppression...';
+  btn.disabled = true;
+
+  try {
+    var response = await fetch(N8N_MANAGE_JOB_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "delete", job_id: parseInt(jobId) }),
+    });
+
+    var result = await response.json();
+
+    showToast(
+      '<i class="fas fa-check-circle"></i> Offre "' + jobTitle + '" supprimée !',
+      "success"
+    );
+    closeEditJobModal();
+    loadData();
+  } catch (error) {
+    console.error("Erreur delete:", error);
+    showToast(
+      '<i class="fas fa-times-circle"></i> Erreur : ' + error.message,
+      "error"
+    );
+  }
+
+  btn.innerHTML = '<i class="fas fa-trash"></i> Supprimer l\'offre';
+  btn.disabled = false;
+}
+
       // ====== METTRE A JOUR L'OFFRE ======
       async function updateJob() {
   var btn = document.getElementById("btnSaveJob");
