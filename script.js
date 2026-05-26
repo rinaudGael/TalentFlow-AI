@@ -995,162 +995,101 @@ document.getElementById('cv-viewer-body').textContent = 'Chargement...';
 
       // ====== METTRE A JOUR L'OFFRE ======
       async function updateJob() {
-        var btn = document.getElementById("btnSaveJob");
-        btn.innerHTML =
-          '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
-        btn.disabled = true;
+  var btn = document.getElementById("btnSaveJob");
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+  btn.disabled = true;
 
-        var data = {
-          action: "update",
-          job_id: parseInt(document.getElementById("edit_job_id").value),
-          title: document.getElementById("edit_title").value.trim(),
-          department: document.getElementById("edit_department").value.trim(),
-          description: document.getElementById("edit_description").value.trim(),
-          required_skills: document
-            .getElementById("edit_required_skills")
-            .value.trim(),
-          preferred_skills: document
-            .getElementById("edit_preferred_skills")
-            .value.trim(),
-          min_experience:
-            parseInt(document.getElementById("edit_min_experience").value) || 0,
-          education_level: document.getElementById("edit_education_level")
-            .value,
-          contract_type: document.getElementById("edit_contract_type").value,
-          location: document.getElementById("edit_location").value.trim(),
-          salary_range: document
-            .getElementById("edit_salary_range")
-            .value.trim(),
-          status: document.getElementById("edit_status").value,
-          skills_weight:
-            parseInt(document.getElementById("edit_skills_weight").value) || 40,
-          experience_weight:
-            parseInt(document.getElementById("edit_experience_weight").value) ||
-            25,
-          education_weight:
-            parseInt(document.getElementById("edit_education_weight").value) ||
-            20,
-          motivation_weight:
-            parseInt(document.getElementById("edit_motivation_weight").value) ||
-            15,
-          min_score_shortlist:
-            parseInt(
-              document.getElementById("edit_min_score_shortlist").value,
-            ) || 70,
-          min_score_auto_reject:
-            parseInt(
-              document.getElementById("edit_min_score_auto_reject").value,
-            ) || 30,
-        };
+  var data = {
+    action: "update",
+    job_id: parseInt(document.getElementById("edit_job_id").value),
+    title: document.getElementById("edit_title").value.trim(),
+    department: document.getElementById("edit_department").value.trim(),
+    description: document.getElementById("edit_description").value.trim(),
+    required_skills: document.getElementById("edit_required_skills").value.trim(),
+    preferred_skills: document.getElementById("edit_preferred_skills").value.trim(),
+    min_experience: parseInt(document.getElementById("edit_min_experience").value) || 0,
+    education_level: document.getElementById("edit_education_level").value,
+    contract_type: document.getElementById("edit_contract_type").value,
+    location: document.getElementById("edit_location").value.trim(),
+    salary_range: document.getElementById("edit_salary_range").value.trim(),
+    status: document.getElementById("edit_status").value,
+    skills_weight: parseInt(document.getElementById("edit_skills_weight").value) || 40,
+    experience_weight: parseInt(document.getElementById("edit_experience_weight").value) || 25,
+    education_weight: parseInt(document.getElementById("edit_education_weight").value) || 20,
+    motivation_weight: parseInt(document.getElementById("edit_motivation_weight").value) || 15,
+    min_score_shortlist: parseInt(document.getElementById("edit_min_score_shortlist").value) || 70,
+    min_score_auto_reject: parseInt(document.getElementById("edit_min_score_auto_reject").value) || 30,
+  };
 
-        // Validation titre
-        if (!data.title) {
-          showToast(
-            '<i class="fas fa-exclamation-triangle"></i> Le titre du poste est obligatoire !',
-            "error",
-          );
-          btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
-          btn.disabled = false;
-          return;
-        }
+  // Validation titre
+  if (!data.title) {
+    showToast('<i class="fas fa-exclamation-triangle"></i> Le titre du poste est obligatoire !', "error");
+    btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+    btn.disabled = false;
+    return;
+  }
 
-        // Validation poids = 100%
-        var totalWeight =
-          data.skills_weight +
-          data.experience_weight +
-          data.education_weight +
-          data.motivation_weight;
-        if (totalWeight !== 100) {
-          showToast(
-            '<i class="fas fa-exclamation-triangle"></i> Le total des poids doit faire 100% (actuellement ' +
-              totalWeight +
-              "%)",
-            "error",
-          );
-          btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
-          btn.disabled = false;
-          return;
-        }
+  // Validation poids = 100%
+  var totalWeight = data.skills_weight + data.experience_weight + data.education_weight + data.motivation_weight;
+  if (totalWeight !== 100) {
+    showToast(
+      '<i class="fas fa-exclamation-triangle"></i> Le total des poids doit faire 100% (actuellement ' + totalWeight + "%)",
+      "error"
+    );
+    btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+    btn.disabled = false;
+    return;
+  }
 
-        try {
-          var response = await fetch(N8N_MANAGE_JOB_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
+  try {
+    // 1 — Sauvegarder l'offre
+    var response = await fetch(N8N_MANAGE_JOB_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-          var result = await response.json();
+    var result = await response.json();
 
-          showToast(
-            '<i class="fas fa-check-circle"></i> Offre mise à jour avec succès !',
-            "success",
-          );
-          closeEditJobModal();
-          loadData();
-        } catch (error) {
-          console.error("Erreur update:", error);
-          showToast(
-            '<i class="fas fa-times-circle"></i> Erreur : ' + error.message,
-            "error",
-          );
-        }
+    showToast('<i class="fas fa-check-circle"></i> Offre mise à jour avec succès !', "success");
 
-        btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
-        btn.disabled = false;
-      }
+    // 2 — Recalculer les scores des candidats
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recalcul des scores...';
+    await recalculScoring(data.job_id);
 
-      // ====== SUPPRIMER L'OFFRE ======
-      async function deleteJob() {
-        var jobId = document.getElementById("edit_job_id").value;
-        var jobTitle = document.getElementById("edit_title").value;
+    // 3 — Fermer et rafraîchir
+    closeEditJobModal();
+    loadData();
 
-        var confirmMsg =
-          'SUPPRIMER "' +
-          jobTitle +
-          '" ?\n\n' +
-          "Cela supprimera DÉFINITIVEMENT :\n" +
-          "• L'offre d'emploi\n" +
-          "• Tous les candidats associés\n" +
-          "• Toutes les analyses IA\n" +
-          "• Toutes les communications\n\n" +
-          "Cette action est IRRÉVERSIBLE !";
+  } catch (error) {
+    console.error("Erreur update:", error);
+    showToast('<i class="fas fa-times-circle"></i> Erreur : ' + error.message, "error");
+  }
 
-        if (!confirm(confirmMsg)) return;
-        if (!confirm("Dernière confirmation : SUPPRIMER DÉFINITIVEMENT ?"))
-          return;
+  btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+  btn.disabled = false;
+}
 
-        var btn = document.getElementById("btnDeleteJob");
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Suppression...';
-        btn.disabled = true;
+async function recalculScoring(jobId) {
+  try {
+    var res = await fetch('https://vmi3051438.contaboserver.net/webhook/api/recalcul-scoring', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job_id: jobId })
+    });
+    var rawData = await res.json();
+    var data = Array.isArray(rawData) ? rawData[0] : rawData;
 
-        try {
-          var response = await fetch(N8N_MANAGE_JOB_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "delete", job_id: parseInt(jobId) }),
-          });
-
-          var result = await response.json();
-
-          showToast(
-            '<i class="fas fa-check-circle"></i> Offre "' +
-              jobTitle +
-              '" supprimée !',
-            "success",
-          );
-          closeEditJobModal();
-          loadData();
-        } catch (error) {
-          console.error("Erreur delete:", error);
-          showToast(
-            '<i class="fas fa-times-circle"></i> Erreur : ' + error.message,
-            "error",
-          );
-        }
-
-        btn.innerHTML = '<i class="fas fa-trash"></i> Supprimer l\'offre';
-        btn.disabled = false;
-      }
+    if (data.success && data.updated > 0) {
+      showToast(
+        '<i class="fas fa-sync-alt"></i> ' + data.updated + ' candidat(s) recalculé(s) automatiquement !',
+        'success'
+      );
+    }
+  } catch(e) {
+    console.log('Erreur recalcul scoring:', e);
+  }
+}
 
       // ====== FERMER LE MODAL EDITION ======
       function closeEditJobModal() {
@@ -1177,6 +1116,27 @@ document.getElementById('cv-viewer-body').textContent = 'Chargement...';
           }
         });
       })();
+
+      async function recalculScoring(jobId) {
+        try {
+          const res = await fetch('https://vmi3051438.contaboserver.net/webhook/api/recalcul-scoring', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ job_id: jobId })
+          });
+          const rawData = await res.json();
+          const data = Array.isArray(rawData) ? rawData[0] : rawData;
+
+          if (data.success) {
+            showToast(
+              '<i class="fas fa-sync-alt"></i> ' + data.updated + ' candidat(s) recalculé(s) !',
+              'success'
+            );
+          }
+        } catch(e) {
+          console.log('Erreur recalcul scoring:', e);
+        }
+      }
 
       // ==========================================
       // CHATBOT IA RECRUTEUR
